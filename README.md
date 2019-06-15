@@ -29,6 +29,28 @@
 2019-06-15 "新誰勤 勤怠B 実装"
 
 $ git add -A
-$ git commit -m "新誰勤 勤怠B 実装"
+$ git commit -m "新誰勤 勤怠B 実装01"
 $ git checkout master
 $ git push
+
+URL
+https://still-springs-20823.herokuapp.com/
+管理者
+email:example@railstutorial.org
+PW:foobar
+上長1
+email:example1@railstutorial.org
+PW:foobar
+上長2
+email:example2@railstutorial.org
+PW:foobar
+一般ユーザ
+email:example-1@railstutorial.org
+PW:password
+ユーザ読込用CSVの中身
+id,name,email,affiliation,uid,cardID,basictime,workingtime,working_time_End,superior,admin,password
+100,上長10,example10@railstutorial.org,上長,1,1,08:00,09:00,18:00,TRUE,FALSE,password
+
+employeeNumber[I],staff_id[K]
+
+CardNumber[A]
