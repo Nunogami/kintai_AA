@@ -28,9 +28,10 @@
 
 2019-06-15 "新誰勤 勤怠B 実装"
 2019-06-16 "残業申請モーダル表示"
+2019-06-16 "上長権限追加前"
 
 $ git add -A
-$ git commit -m "残業申請モーダル表示"
+$ git commit -m "上長権限追加前"
 $ git checkout master
 $ git push
 
@@ -61,6 +62,31 @@ uid
 designated_work_end_time
 上長
 superior
+20190616
+上長権限属性を追加
+rails g migration add_superior_to_users superior:boolean
+マイグレーションファイル
+  def change
+    add_column :users, :superior, :boolean, default: false
+  end
+シード追加
+User.create!(name: "上長01",
+             email: "superior01@email.com",
+             password: "password",
+             password_confirmation: "password",
+             superior: true)
+User.create!(name: "上長02",
+             email: "superior02@email.com",
+             password: "password",
+             password_confirmation: "password",
+             superior: true)
+User.create!(name: "上長03",
+             email: "superior03@email.com",
+             password: "password",
+             password_confirmation: "password",
+             superior: true)
+rails db:migrate:reset
+rails db:seed
 カラム確認
 rails c
 User.column_names
