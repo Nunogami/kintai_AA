@@ -29,9 +29,10 @@
 2019-06-15 "新誰勤 勤怠B 実装"
 2019-06-16 "残業申請モーダル表示"
 2019-06-16 "上長権限追加前"
+2019-06-16 "他ユーザー読取に"
 
 $ git add -A
-$ git commit -m "上長権限追加前"
+$ git commit -m "他ユーザー読取に"
 $ git checkout master
 $ git push
 
@@ -87,7 +88,13 @@ User.create!(name: "上長03",
              superior: true)
 rails db:migrate:reset
 rails db:seed
-カラム確認
+管理者権限確認
+User.first.admin?
+User.find(2).admin?
+上長権限確認
+User.first.superior?
+User.find(2).superior?
+ユーザーカラム確認
 rails c
 User.column_names
 リポジトリを確認
@@ -102,10 +109,11 @@ git push --set-upstream origin master
 git clone url
 bundle install --without production
 bin/rails db:migrate RAILS_ENV=development
-2.6.3 :001 > User.column_names
- => ["id", "name", "email", "created_at", "updated_at", "password_digest", "remember_digest", "admin", "department", "basic_time", "work_time"] 
-2.6.3 :002 > quit
-
-<%= link_to "基本情報編集", edit_basic_info_user_path(user), remote: true, class: "btn btn-success" %>
-モーダルウインドウ表示
-<div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+もし日付が今日より未来または、ユーザーが一致しない場合は読み取り専用にする。
+            <% if (Date.current < day.worked_on || !current_user?(@user)) %>
+             <td><%= attendance.time_field :started_at, readonly: true, class: "form-control" %></td>
+             <td><%= attendance.time_field :finished_at, readonly: true, class: "form-control" %></td>
+            <% else %>
+             <td><%= attendance.time_field :started_at, class: "form-control" %></td>
+             <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
+            <% end %>

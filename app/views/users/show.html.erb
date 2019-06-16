@@ -19,7 +19,9 @@
 
 <div class="btn-users-show">
   <%= link_to "⇦ 前月へ", user_path(date: @first_day.prev_month), class: "btn btn-info" %>
+  <% if (current_user?(@user)) %>
   <%= link_to "1ヶ月の勤怠編集へ", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-success" %>
+  <% end %>
   <%= link_to "次月へ ⇨", user_path(date: @first_day.next_month), class: "btn btn-info" %>
 </div>
 
@@ -54,7 +56,7 @@
         end %>
         <tr>
           <td class="center">
-            
+            <% if (current_user?(@user)) %>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sampleModal-<%= day.id %>">
             	残業申請
             </button>
@@ -65,7 +67,7 @@
             		<div class="modal-content">
             			<div class="modal-header">
             				<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
-            				<h4 class="modal-title">残業申請</h4>
+            				<h4 class="modal-title">【残業申請】</h4>
             			</div>
             			<div class="modal-body">
             			  
@@ -74,7 +76,7 @@
                         <tr>
                           <th>日付</th>
                           <th>曜日</th>
-                          <th>終了時間</th>
+                          <th>終了予定時間</th>
                           <th>翌日</th>
                           <th>業務内容</th>
                           <th>支持者確認㊞</th>
@@ -100,13 +102,16 @@
             		</div>
             	</div>
             </div>
-            
+            <% else %>
+            <% end %>
           </td>
           <td><%= l(day.worked_on, format: :short) %></td>
           <td class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></td>
           <td>
-            <% if btn_text = attendance_state(day) %>
+            <% if (current_user?(@user)) %>
+             <% if btn_text = attendance_state(day) %>
               <%= link_to "#{btn_text}登録", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>
+             <% end %>
             <% end %>
           </td>
           <td><%= l(day.started_at.floor_to(15.minutes), format: :time) if day.started_at.present? %></td>
