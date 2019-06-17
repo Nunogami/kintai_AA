@@ -31,9 +31,10 @@
 2019-06-16 "上長権限追加前"
 2019-06-16 "上長権限追加"
 2019-06-17 "残業申請追加前"
+2019-06-17 "Accordion partial layout"
 
 $ git add -A
-$ git commit -m "残業申請追加前"
+$ git commit -m "Accordion partial layout"
 $ git checkout master
 $ git push
 
@@ -142,45 +143,80 @@ bin/rails db:migrate RAILS_ENV=development
             	</div>
             </div>
             
-<!-- 残業申請フォーム -->
-<%= @date.each do |date| %>
-      <div class ="test" id="<%= date.attendance_day %>">
-        <h3>残業申請</h3>
-        <%= form_for(date, url: sample_path, method: :post) do |f| %>
-        <%= f.hidden_field :id, :value => date.id %> <!-- attendancesテーブルのidを渡す -->
-        <%= f.hidden_field :user_id, :value => @user.id %>
-          <table class="txt1 table table-bordered table-striped table-condensed">
-            <thead>
-              <tr>
-                <th>日付</th>
-                <th>曜日</th>
-                <th>終了時間（必須）</th>
-                <th>業務内容</th>
-                <th>確認（必須）</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <!-- 日付 -->
-                <td><%= date.attendance_day.month %>/<%= date.attendance_day.day %></td>
-                <!-- 曜日 -->
-                <td><%= @week[date.attendance_day.wday] %></td>
-                <!-- 終了時間 -->
-                <td><%= f.time_field :scheduled_end_time, class: 'form-control' %> </td>
-                <!-- 業務内容 -->
-                <td><%= f.text_field :business_outline, class: 'form-controll' %></td>
-                <!-- 確認 -->
-                <td>
-                  <% if current_user.superior? %>
-                    <%= f.select :instructor_test, [@superior], :include_blank => true %>
-                  <% else %>
-                    <%= f.select :instructor_test, @superior, :include_blank => true %>
-                  <% end %>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <%= f.submit "残業を申請する", class: "btn btn-sm btn-primary" %>
-        <% end %>
+rails generate migration CreateAttendances finished_plan_at:datetime
+
+<section>
+
+  <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#sample-<%= user.id %>">コンテンツを開く </button>
+  <div id="sample-<%= user.id %>" class="collapse">
+    <div class="panel panel-default">
+      <div class="panel-body">
+      
+      
+      
+      
+        <p>コメントコメントコメントコメントコメントコメントコメント </p>
       </div>
-    <% end %>
+    </div>
+  </div>
+</section>
+<hr>
+<section>
+  <h2>コンテンツを最初から表示</h2>
+  <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#sample2">コンテンツを開く </button>
+  <div id="sample2" class="collapse in">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h3>アコーディオンの中身</h3>
+        <p>コメントコメントコメントコメントコメントコメントコメント </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--モーダルウインドウ表示-->
+<div id="edit-basic-info" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+            <%= link_to user.name, user %>
+
+Attendance.column_names
+
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse1">基本情報編集</a>
+      </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse">
+      <div class="panel-body">内容</div>
+      <div class="panel-footer">フッター</div>
+    </div>
+  </div>
+</div>
+
+    <%= link_to "基本情報編集", edit_basic_info_user_path(user), remote: true, class: "btn btn-primary" %>        
+            
+        <td class="center"><%= user.department.present? ? user.department : "未所属" %></td>
+        <% if current_user.admin? %>
+          <td class="center"><%= format_basic_info(user.basic_time) %></td>
+          <td class="center"><%= format_basic_info(user.work_time) %></td>
+        <% end %>
+        
+    <thead>
+      <tr>
+        <th><%= User.human_attribute_name :name %></th>
+        <th class="center"><%= User.human_attribute_name :department %></th>
+        <% if current_user.admin? %>
+          <th class="center"><%= User.human_attribute_name :basic_time %></th>
+          <th class="center"><%= User.human_attribute_name :work_time %></th>
+        <% end %>
+        <th></th>
+      </tr>
+    </thead>
+    
+        <td class="center"><%= user.department.present? ? user.department : "未所属" %></td>
+        <% if current_user.admin? %>
+          <td class="center"><%= format_basic_info(user.basic_time) %></td>
+          <td class="center"><%= format_basic_info(user.work_time) %></td>
+        <% end %>

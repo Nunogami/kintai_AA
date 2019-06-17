@@ -56,3 +56,5 @@
     <%= link_to "キャンセル", user_path(date: @first_day), class: "btn btn-lg btn-default" %>
   </div>
 <% end %>
+
+rails g model Attendance finished_plan_at:datetime user:references
