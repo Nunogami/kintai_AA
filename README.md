@@ -29,10 +29,11 @@
 2019-06-15 "新誰勤 勤怠B 実装"
 2019-06-16 "残業申請モーダル表示"
 2019-06-16 "上長権限追加前"
-2019-06-16 "他ユーザー読取に"
+2019-06-16 "上長権限追加"
+2019-06-17 "残業申請追加前"
 
 $ git add -A
-$ git commit -m "他ユーザー読取に"
+$ git commit -m "残業申請追加前"
 $ git checkout master
 $ git push
 
@@ -117,3 +118,69 @@ bin/rails db:migrate RAILS_ENV=development
              <td><%= attendance.time_field :started_at, class: "form-control" %></td>
              <td><%= attendance.time_field :finished_at, class: "form-control" %></td>
             <% end %>
+モーダル
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sampleModal">
+            	【所属長承認申請のお知らせ】
+            </button>
+            <!-- モーダル・ダイアログ -->
+            <div class="modal fade" id="sampleModal" tabindex="-1">
+            	<div class="modal-dialog">
+            		<div class="modal-content">
+            			<div class="modal-header">
+            				<button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+            				<h4 class="modal-title">【暫定】</h4>
+            			</div>
+            			<div class="modal-body">
+                          <table class="table table-bordered table-condensed table-hover" id="table-attendances">
+                          </table>
+            			</div>
+            			<div class="modal-footer">
+            				<button type="button" class="btn btn-default" data-dismiss="modal">戻る</button>
+            				<button type="button" class="btn btn-primary">変更を送信する</button>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            
+<!-- 残業申請フォーム -->
+<%= @date.each do |date| %>
+      <div class ="test" id="<%= date.attendance_day %>">
+        <h3>残業申請</h3>
+        <%= form_for(date, url: sample_path, method: :post) do |f| %>
+        <%= f.hidden_field :id, :value => date.id %> <!-- attendancesテーブルのidを渡す -->
+        <%= f.hidden_field :user_id, :value => @user.id %>
+          <table class="txt1 table table-bordered table-striped table-condensed">
+            <thead>
+              <tr>
+                <th>日付</th>
+                <th>曜日</th>
+                <th>終了時間（必須）</th>
+                <th>業務内容</th>
+                <th>確認（必須）</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <!-- 日付 -->
+                <td><%= date.attendance_day.month %>/<%= date.attendance_day.day %></td>
+                <!-- 曜日 -->
+                <td><%= @week[date.attendance_day.wday] %></td>
+                <!-- 終了時間 -->
+                <td><%= f.time_field :scheduled_end_time, class: 'form-control' %> </td>
+                <!-- 業務内容 -->
+                <td><%= f.text_field :business_outline, class: 'form-controll' %></td>
+                <!-- 確認 -->
+                <td>
+                  <% if current_user.superior? %>
+                    <%= f.select :instructor_test, [@superior], :include_blank => true %>
+                  <% else %>
+                    <%= f.select :instructor_test, @superior, :include_blank => true %>
+                  <% end %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <%= f.submit "残業を申請する", class: "btn btn-sm btn-primary" %>
+        <% end %>
+      </div>
+    <% end %>
