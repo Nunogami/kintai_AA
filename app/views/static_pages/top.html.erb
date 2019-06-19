@@ -1,9 +1,15 @@
 <% provide(:title, "Top") %>
 <div class="center jumbotron">
-  <h1>勤怠システム</h1>
+  
   <!--<p>このアプリケーションでは、登録されたユーザーの勤怠情報を閲覧・登録・編集することができます。</p>-->
-  <%= link_to "ユーザー登録", signup_path, class: "btn btn-lg btn-primary" %>
+   <% if (current_user?(@user)) %>
+   <h1>勤怠システム</h1>
+     <%= link_to "ユーザー登録", signup_path, class: "btn btn-lg btn-primary" %>
     <p>
       ユーザー登録がまだの場合は<%= link_to "こちら", signup_path %>
     </p>
+   <% else %>
+    <h2>ログインしました！</h2>
+    <h2>今日も一日頑張りましょう！！</h2>
+    <% end %>
 </div>

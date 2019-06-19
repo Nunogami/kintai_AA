@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   # before_action :superior_user, only: :
 
   def index
+    
     @users = User.paginate(page: params[:page])
     # パラメータとして名前か性別を受け取っている場合は絞って検索する
     if params[:name].present?

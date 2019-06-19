@@ -32,9 +32,10 @@
 2019-06-16 "上長権限追加"
 2019-06-17 "残業申請追加前"
 2019-06-17 "Accordion partial layout"
+2019-06-17 "試し"
 
 $ git add -A
-$ git commit -m "Accordion partial layout"
+$ git commit -m "試し"
 $ git checkout master
 $ git push
 
@@ -143,7 +144,8 @@ bin/rails db:migrate RAILS_ENV=development
             	</div>
             </div>
             
-rails generate migration CreateAttendances finished_plan_at:datetime
+rails generate migration CreateAttendances finished_plan_at:datetime business_content:string user:references
+rails g model Attendance finished_plan_at:datetime business_content:string user:references
 
 <section>
 
@@ -180,6 +182,7 @@ rails generate migration CreateAttendances finished_plan_at:datetime
             <%= link_to user.name, user %>
 
 Attendance.column_names
+rails g model Attendance finished_plan_at:datetime
 
 <div class="panel-group">
   <div class="panel panel-default">
@@ -220,3 +223,15 @@ Attendance.column_names
           <td class="center"><%= format_basic_info(user.basic_time) %></td>
           <td class="center"><%= format_basic_info(user.work_time) %></td>
         <% end %>
+        
+rails generate controller TameshiPages tameshi
+
+<% @users.each do |user| %>
+	<%= render "errors" %>
+	<%= user.name %>
+	.
+	.
+<% end %>
+	
+#_errorsパーシャルの中身は@userを参照しているので、
+#<%= render "errors", @user: user %>みたいな感じでどうでしょうか？
