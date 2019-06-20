@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
   before_action :logged_in_user, only: [:index, :edit, :update, :destroy, :edit_basic_info, :update_basic_info]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: [:destroy, :edit_basic_info, :update_basic_info]
+  before_action :correct_user, only: [:edit, :update,]
+  before_action :admin_user, only: [:index, :destroy, :edit_basic_info, :update_basic_info]
   before_action :set_one_month, only: :show
   # before_action :superior_user, only: :
 
   def index
-    
+
     @users = User.paginate(page: params[:page])
     # パラメータとして名前か性別を受け取っている場合は絞って検索する
     if params[:name].present?
@@ -15,7 +15,15 @@ class UsersController < ApplicationController
     end
     if params[:gender].present?
     @users = @users.get_by_gender params[:gender]
-    end    
+    end
+
+    # if @users.update_attributes(user_params)
+    #   flash[:success] = "ユーザー情報を更新しました。"
+    #   render :edit
+    # else
+    #   render :edit      
+    # end
+
   end
 
   def show
@@ -43,7 +51,7 @@ class UsersController < ApplicationController
   def update
     if @user.update_attributes(user_params)
       flash[:success] = "ユーザー情報を更新しました。"
-      redirect_to @user
+      render :edit
     else
       render :edit      
     end
@@ -70,13 +78,12 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :basic_time, :work_time)
     end
     
     def basic_info_params
-      params.require(:user).permit(:department, :basic_time, :work_time)
+      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :basic_time, :work_time)
     end
-    
     # def superior_user
     #   redirect_to root_url unless current_user.superior?
     # end

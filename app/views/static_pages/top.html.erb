@@ -9,7 +9,14 @@
       ユーザー登録がまだの場合は<%= link_to "こちら", signup_path %>
     </p>
    <% else %>
-    <h2>ログインしました！</h2>
-    <h2>今日も一日頑張りましょう！！</h2>
+    <h2>ログインしました！　今日は<%= Date.current %>？</h2>
+    <h2>お疲れ様です！！　<%= current_user.name %>さん！！　プログラミングは習慣化！！</h2>
+    <% if current_user.admin? %>
+    <h2>あなたは管理者ユーザーです！</h2>
+    <% elsif current_user.superior? %>
+    <h2>あなたは上長ユーザーです！　勤怠表示画面は<%= link_to "こちら", current_user %>へ</h2>
+    <% else %>
+    <h2>あなたは一般ユーザーです！　勤怠表示画面は<%= link_to "こちら", current_user %>へ</h2>
+    <% end %>
     <% end %>
 </div>

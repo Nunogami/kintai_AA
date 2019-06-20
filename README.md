@@ -33,9 +33,10 @@
 2019-06-17 "残業申請追加前"
 2019-06-17 "Accordion partial layout"
 2019-06-17 "試し"
+2019-06-21 "ユーザーカラム追加前"
 
 $ git add -A
-$ git commit -m "試し"
+$ git commit -m "ユーザーカラム追加前"
 $ git checkout master
 $ git push
 
@@ -235,3 +236,22 @@ rails generate controller TameshiPages tameshi
 	
 #_errorsパーシャルの中身は@userを参照しているので、
 #<%= render "errors", @user: user %>みたいな感じでどうでしょうか？
+
+rails g model Attendance finished_plan_at:datetime user:references
+
+     <%= link_to "基本情報編集", edit_basic_info_user_path(user), remote: true, class: "btn btn-primary btn-lg btn-block" %> 
+     
+                    <%= render "edit_basic_info" %>
+                    
+string 文字列型
+text テキスト（不定長文字列）型
+integer 整数型
+float 浮動小数点数型
+decimal 固定長整数型
+datetime 日時型
+timestamp タイムスタンプ型
+time 時刻型
+date 日付型
+binary バイナリ文字列型
+boolean 真偽値型
+references 他のテーブルへの外部キーの定義、_id が付いた整数
