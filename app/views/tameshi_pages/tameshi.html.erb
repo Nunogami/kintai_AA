@@ -1,2 +1,11 @@
-<h1>TameshiPages#tameshi</h1>
-<p>Find me in app/views/tameshi_pages/tameshi.html.erb</p>
+<% provide(:title, '暫定') %>
+<% provide(:class_text, 'user--edit') %>
+<% provide(:button_text, '更新') %>
+        <% css_class = case %w{日 月 火 水 木 金 土}[Date.current.wday]
+        when '土'
+          'text-primary'
+        when '日'
+          'text-danger'
+        end %>
+<h1 class="<%= css_class %>"><%= %w{日曜日 月曜日 火曜日 水曜日 金曜日 土曜日}[Date.current.wday] %></h1>
+<h2><%= %w{休日こそビジネスが経営者思考 自燃の人間になろう 稼いだお金は人助けした証拠 自己解決力、自走することがフリーエンジニアへの近道 プログラミングは習慣化 最後はググり力、質問力、解答へと導く検索、質問をしよう}[Date.current.wday] %>！！</h2>

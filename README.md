@@ -36,9 +36,10 @@
 2019-06-21 "ユーザーカラム追加前"
 2019-06-23 "社員番号追加"
 2019-06-23 "カード番号追加"
+2019-06-23 "指定勤務時間追加前"
 
 $ git add -A
-$ git commit -m "カード番号追加"
+$ git commit -m "指定勤務時間追加前"
 $ git checkout master
 $ git push
 
@@ -73,6 +74,8 @@ rails db:migrate
 <%= f.number_field :employee_number, class: "form-control" %>
 正規表示
 VALID_NUMBER_REGEX = /\A\d{1,4}\z/
+表示設定
+  <%= @user.employee_number.present? ? @user.employee_number : "未設定" %>
 カード番号
 uid
 カード番号を追加（文字列型）
@@ -83,6 +86,8 @@ VALID_CARD_NUMBER_REGEX = /\A\d{1,16}\z/
   VALID_UID_REGEX = /\A[a-zA-Z0-9]+\z/
 バリデート設定（16桁の英数文字列）
   validates :uid, length: { maximum: 16 }
+表示設定
+  <%= @user.uid.present? ? @user.uid : "未設定" %>
 参考url
 https://qiita.com/ytkt/items/68f8eaac998e83c0d0da
 指定勤務開始時間
@@ -93,6 +98,7 @@ rails g migration add_designated_work_start_time_to_users designated_work_start_
 designated_work_end_time
 追加
 rails g migration add_designated_work_end_time_to_users designated_work_end_time:datetime
+指定勤務開始時間、指定勤務終了時間追加
 rails g migration add_basic_info_to_users designated_work_start_time:datetime designated_work_end_time:datetime
 マイグレート追加
     add_column :users, :designated_work_start_time, :datetime, default: Time.current.change(hour: 9, min: 0, sec: 0)
@@ -299,3 +305,14 @@ employees_display
 拠点一覧
 touch app/views/users/base_points.html.erb
 base_points
+
+rails c -s
+user = User.new(name: "test user", email: "sample@email.com", password: "password", password_confirmation: "password")
+
+【実現したいこと】
+1.
+【現状】
+1.
+【困っていること】
+1.
+【参考サイト】

@@ -9,8 +9,14 @@
       ユーザー登録がまだの場合は<%= link_to "こちら", signup_path %>
     </p>
    <% else %>
-    <h2>ログインしました！　今日は<%= l(Date.current, format: :short) %>です！</h2>
-    <h2>お疲れ様です！！　<%= current_user.name %>さん！！　プログラミングは習慣化！！</h2>
+        <% css_class = case %w{日 月 火 水 木 金 土}[Date.current.wday]
+        when '土'
+          'text-primary'
+        when '日'
+          'text-danger'
+        end %>
+    <h2>ログインしました！　今日は<%= l(Date.current, format: :short) %>(<span class="<%= css_class %>"><%= %w{日 月 火 水 木 金 土}[Date.current.wday] %></span>)です！</h2>
+    <h2>お疲れ様です！！　<%= current_user.name %>さん！！　<%= %w{休日こそビジネスが経営者思考 自燃の人間になろう 稼いだお金は人助けした証拠 自己解決力、自走することがフリーエンジニアへの近道 プログラミングは習慣化 最後はググり力、質問力、解答へと導く検索、質問をしよう}[Date.current.wday] %>！！</h2>
     <% if current_user.admin? %>
     <h2>あなたは管理者ユーザーです！</h2>
     <% elsif current_user.superior? %>

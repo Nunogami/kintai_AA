@@ -31,10 +31,11 @@ class User < ApplicationRecord
   VALID_NUMBER_REGEX = /\A\d{1,4}\z/ 
   validates :employee_number, length: { maximum: 4 },
                     format: { with: VALID_NUMBER_REGEX },
-                    uniqueness: true
+                    uniqueness: true, allow_blank: true
   VALID_UID_REGEX = /\A[a-zA-Z0-9]+\z/
   validates :uid, length: { maximum: 16 },
-                    format: { with: VALID_UID_REGEX }
+                    format: { with: VALID_UID_REGEX },
+                    allow_blank: true
   
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)
