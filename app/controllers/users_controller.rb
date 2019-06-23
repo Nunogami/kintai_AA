@@ -71,11 +71,11 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :department, :employee_number, :password, :password_confirmation, :basic_time, :work_time)
+      params.require(:user).permit(:name, :email, :department, :employee_number, :uid, :password, :password_confirmation, :basic_time, :work_time)
     end
     
     def basic_info_params
-      params.require(:user).permit(:name, :email, :department, :employee_number, :password, :password_confirmation, :basic_time, :work_time)
+      params.require(:user).permit(:name, :email, :department, :employee_number, :uid, :password, :password_confirmation, :basic_time, :work_time)
     end
     # def superior_user
     #   redirect_to root_url unless current_user.superior?

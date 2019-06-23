@@ -35,9 +35,10 @@
 2019-06-17 "試し"
 2019-06-21 "ユーザーカラム追加前"
 2019-06-23 "社員番号追加"
+2019-06-23 "カード番号追加"
 
 $ git add -A
-$ git commit -m "社員番号追加"
+$ git commit -m "カード番号追加"
 $ git checkout master
 $ git push
 
@@ -64,21 +65,24 @@ id,name,email,affiliation,uid,cardID,basictime,workingtime,working_time_End,supe
 employee_number
 社員番号を追加（整数型）
 rails g migration add_employee_number_to_users employee_number:integer
+rails db:migrate
 バリデート設定（4桁の番号）
   validates :employee_number, length: { maximum: 4 }
 フォーム追加
 <%= f.label :employee_number, class: "label-#{yield(:class_text)}" %>
-<%= f.text_field :employee_number, class: "form-control" %>
+<%= f.number_field :employee_number, class: "form-control" %>
 正規表示
 VALID_NUMBER_REGEX = /\A\d{1,4}\z/
 カード番号
 uid
 カード番号を追加（文字列型）
 rails g migration add_uid_to_users uid:string
-カード番号正規表示（現実的には14,16)だがわかりやすく1から
+rails db:migrate
+カード番号正規表示
 VALID_CARD_NUMBER_REGEX = /\A\d{1,16}\z/
+  VALID_UID_REGEX = /\A[a-zA-Z0-9]+\z/
 バリデート設定（16桁の英数文字列）
-  validates uid, length: { maximum: 16 }
+  validates :uid, length: { maximum: 16 }
 参考url
 https://qiita.com/ytkt/items/68f8eaac998e83c0d0da
 指定勤務開始時間
