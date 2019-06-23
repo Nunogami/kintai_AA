@@ -34,9 +34,10 @@
 2019-06-17 "Accordion partial layout"
 2019-06-17 "試し"
 2019-06-21 "ユーザーカラム追加前"
+2019-06-23 "社員番号追加"
 
 $ git add -A
-$ git commit -m "ユーザーカラム追加前"
+$ git commit -m "社員番号追加"
 $ git checkout master
 $ git push
 
@@ -61,10 +62,37 @@ id,name,email,affiliation,uid,cardID,basictime,workingtime,working_time_End,supe
 
 社員番号
 employee_number
+社員番号を追加（整数型）
+rails g migration add_employee_number_to_users employee_number:integer
+バリデート設定（4桁の番号）
+  validates :employee_number, length: { maximum: 4 }
+フォーム追加
+<%= f.label :employee_number, class: "label-#{yield(:class_text)}" %>
+<%= f.text_field :employee_number, class: "form-control" %>
+正規表示
+VALID_NUMBER_REGEX = /\A\d{1,4}\z/
 カード番号
 uid
+カード番号を追加（文字列型）
+rails g migration add_uid_to_users uid:string
+カード番号正規表示（現実的には14,16)だがわかりやすく1から
+VALID_CARD_NUMBER_REGEX = /\A\d{1,16}\z/
+バリデート設定（16桁の英数文字列）
+  validates uid, length: { maximum: 16 }
+参考url
+https://qiita.com/ytkt/items/68f8eaac998e83c0d0da
+指定勤務開始時間
+designated_work_start_time
+追加
+rails g migration add_designated_work_start_time_to_users designated_work_start_time:datetime
 指定勤務終了時間
 designated_work_end_time
+追加
+rails g migration add_designated_work_end_time_to_users designated_work_end_time:datetime
+rails g migration add_basic_info_to_users designated_work_start_time:datetime designated_work_end_time:datetime
+マイグレート追加
+    add_column :users, :designated_work_start_time, :datetime, default: Time.current.change(hour: 9, min: 0, sec: 0)
+    add_column :users, :designated_work_end_time, :datetime, default: Time.current.change(hour: 18, min: 0, sec: 0)
 上長
 superior
 20190616
@@ -255,3 +283,15 @@ date 日付型
 binary バイナリ文字列型
 boolean 真偽値型
 references 他のテーブルへの外部キーの定義、_id が付いた整数
+
+出勤中社員一覧
+touch app/views/users/employees_display.html.erb
+employees_display
+  <% @users.each do |user| %>
+  <% @user = user %>
+  
+  <% end %>
+
+拠点一覧
+touch app/views/users/base_points.html.erb
+base_points

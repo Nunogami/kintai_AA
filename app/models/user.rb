@@ -28,6 +28,10 @@ class User < ApplicationRecord
   validates :work_time, presence: true
   has_secure_password
   validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
+  VALID_NUMBER_REGEX = /\A\d{1,4}\z/ 
+  validates :employee_number, length: { maximum: 4 },
+                    format: { with: VALID_NUMBER_REGEX },
+                    uniqueness: true
   
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)

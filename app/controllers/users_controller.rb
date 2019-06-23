@@ -17,13 +17,6 @@ class UsersController < ApplicationController
     @users = @users.get_by_gender params[:gender]
     end
 
-    # if @users.update_attributes(user_params)
-    #   flash[:success] = "ユーザー情報を更新しました。"
-    #   render :edit
-    # else
-    #   render :edit      
-    # end
-
   end
 
   def show
@@ -78,11 +71,11 @@ class UsersController < ApplicationController
   private
 
     def user_params
-      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :basic_time, :work_time)
+      params.require(:user).permit(:name, :email, :department, :employee_number, :password, :password_confirmation, :basic_time, :work_time)
     end
     
     def basic_info_params
-      params.require(:user).permit(:name, :email, :department, :password, :password_confirmation, :basic_time, :work_time)
+      params.require(:user).permit(:name, :email, :department, :employee_number, :password, :password_confirmation, :basic_time, :work_time)
     end
     # def superior_user
     #   redirect_to root_url unless current_user.superior?
