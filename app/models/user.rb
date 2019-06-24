@@ -36,6 +36,8 @@ class User < ApplicationRecord
   validates :uid, length: { maximum: 16 },
                     format: { with: VALID_UID_REGEX },
                     allow_blank: true
+  validates :designated_work_start_time, presence: true
+  validates :designated_work_end_time, presence: true
   
   # 渡された文字列のハッシュ値を返します。
   def User.digest(string)

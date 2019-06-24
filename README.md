@@ -37,9 +37,10 @@
 2019-06-23 "社員番号追加"
 2019-06-23 "カード番号追加"
 2019-06-23 "指定勤務時間追加前"
+2019-06-24 "指定勤務時間追加後"
 
 $ git add -A
-$ git commit -m "指定勤務時間追加前"
+$ git commit -m "指定勤務時間追加後"
 $ git checkout master
 $ git push
 
@@ -99,7 +100,7 @@ designated_work_end_time
 追加
 rails g migration add_designated_work_end_time_to_users designated_work_end_time:datetime
 指定勤務開始時間、指定勤務終了時間追加
-rails g migration add_basic_info_to_users designated_work_start_time:datetime designated_work_end_time:datetime
+rails g migration add_designated_work_to_users designated_work_start_time:datetime designated_work_end_time:datetime
 マイグレート追加
     add_column :users, :designated_work_start_time, :datetime, default: Time.current.change(hour: 9, min: 0, sec: 0)
     add_column :users, :designated_work_end_time, :datetime, default: Time.current.change(hour: 18, min: 0, sec: 0)
