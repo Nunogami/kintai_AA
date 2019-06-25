@@ -38,9 +38,11 @@
 2019-06-23 "カード番号追加"
 2019-06-23 "指定勤務時間追加前"
 2019-06-24 "指定勤務時間追加後"
+2019-06-24 "出勤中社員一覧追加前"
+2019-06-25 "出勤社員一覧追加後"
 
 $ git add -A
-$ git commit -m "指定勤務時間追加後"
+$ git commit -m "出勤社員一覧追加後"
 $ git checkout master
 $ git push
 
@@ -295,13 +297,37 @@ binary バイナリ文字列型
 boolean 真偽値型
 references 他のテーブルへの外部キーの定義、_id が付いた整数
 
+touch app/views/users/index.html.erb
 出勤中社員一覧
 touch app/views/users/employees_display.html.erb
 employees_display
-  <% @users.each do |user| %>
-  <% @user = user %>
-  
+<div class="col-md-10 col-md-offset-1">
+  <%= will_paginate %>
+  <table class="table table-condensed table-hover" id="table-users">
+    <thead>
+      <tr>
+      <th>社員番号</th>
+      <th>氏名</th>
+      </tr>
+    </thead>
+    <% if day.started_at.present? && day.finished_at.nil? %>
+    <% @users.each do |user| %>
+    <% @user = user %>
+    <tbody>
+       <% if current_user.admin? %>
+      <td>
+        <%= user.employee_number %>
+      </td>
+      <td>
+        <%= user.name %>
+      </td>
+    </tbody>
+       <% end %>
+    <% end %>
   <% end %>
+  </table>
+  <%= will_paginate %>
+</div>
 
 拠点一覧
 touch app/views/users/base_points.html.erb
@@ -316,4 +342,9 @@ user = User.new(name: "test user", email: "sample@email.com", password: "passwor
 1.
 【困っていること】
 1.
+
+
 【参考サイト】
+
+もし出勤して退勤していなければ表示
+ <% if @user.attendances.any?{|day|( day.worked_on == Date.today && !day.started_at.blank? && day.finished_at.blank? )} %>
