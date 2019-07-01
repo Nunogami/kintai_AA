@@ -1,0 +1,2 @@
+module BasePointsPagesHelper
+end

@@ -8,7 +8,7 @@
          <% if current_user.try(:admin?) %>
            <li><%= link_to "ユーザ一覧", users_path %></li>
            <li><%= link_to "出勤社員一覧",  employees_display_user_path(current_user) %> </li>
-           <li><%= link_to "拠点一覧", users_path %></li>
+           <li><%= link_to "拠点一覧", base_points_pages_base_points_path %></li>
            <li><%= link_to "基本情報編集", tameshi_pages_tameshi_path %></li>
          <% end %>
           <li class="dropdown">

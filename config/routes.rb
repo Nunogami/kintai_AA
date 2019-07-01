@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'base_points_pages/base_points'
+  resources :base_points
+
   get 'tameshi_pages/tameshi'
 
   root 'static_pages#top'

@@ -1,0 +1,78 @@
+<% provide(:title, "拠点一覧") %>
+<% provide(:class_text, 'user--edit') %>
+<% provide(:button_text, '更新') %>
+<h1>拠点一覧</h1>
+<div class="col-md-10 col-md-offset-1">
+  <table class="table table-condensed table-hover" id="table-users">
+    <thead>
+      <tr>
+        <th>　</th>
+        <th>　</th>
+        <th>拠点番号</th>
+        <th>拠点名</th>
+        <th>勤怠種類</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+  <% @base_points.each do |base_point| %>
+      <td>
+        <section>
+         <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#sample-<%= base_point.id %>">修正</button>
+          <div id="sample-<%= base_point.id %>" class="collapse">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <h1>拠点情報の更新</h1>
+                  <div class="row">
+                    <div class="col-md-6 col-md-offset-3">
+                        
+                    </div>
+                   </div>
+              </div>
+            </div>
+          </div>
+        </section> 
+      </td>
+      <td>
+
+        <%= link_to "削除", base_point, method: :delete,
+          data: { confirm: "削除してよろしいですか？" }, class: "btn btn-primary" %>
+
+      </td>
+      <td><%= base_point.id %></td>
+      <td><%= base_point.base_point_name %></td>
+      <td><%= base_point.time_classification %></td>
+      </tr>
+      <% end %>
+    </tbody>
+<tbody>
+  <td colspan="5">
+        <section>
+         <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#sample">拠点情報追加</button>
+          <div id="sample" class="collapse">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                
+                  
+                        
+                      
+                          <%= form_with(model: @base_point, local: true) do |f| %>
+                            
+                            
+                            <%= f.label :base_point_name, class: "label-signup" "label-#{yield(:class_text)}" %>
+                            <%= f.text_field :base_point_name, class: "form-control" %>
+                            
+                            <%= f.label :time_classification, class: "label-signup" "label-#{yield(:class_text)}" %><br>
+                            <%= f.select :time_classification, [["出勤", "出勤"], ["退勤", "退勤"]] ,class:"form-control" %>
+                      
+                            <%= f.submit "追加", class: "btn btn-primary btn-block btn-signup" %>
+                          <% end %>
+                        
+                        
+                    
+              </div>
+            </div>
+          </div>
+        </section>     
+  </td>
+</tbody>

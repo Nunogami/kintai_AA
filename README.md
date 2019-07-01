@@ -40,9 +40,10 @@
 2019-06-24 "指定勤務時間追加後"
 2019-06-24 "出勤中社員一覧追加前"
 2019-06-25 "出勤社員一覧追加後"
+2019-07-01 "試し02"
 
 $ git add -A
-$ git commit -m "出勤社員一覧追加後"
+$ git commit -m "試し02"
 $ git checkout master
 $ git push
 
@@ -142,6 +143,8 @@ User.find(2).superior?
 ユーザーカラム確認
 rails c
 User.column_names
+拠点カラム確認
+BasePoint.column_names
 リポジトリを確認
 git remote -v
 リポジトリの変更
@@ -331,8 +334,110 @@ employees_display
 
 拠点一覧
 touch app/views/users/base_points.html.erb
+rails generate controller BasePointsPages base_points
 base_points
 
+rails generate controller TameshiPages tameshi
+
+拠点番号
+base_point_number
+拠点名
+base_point_name
+勤怠種類
+なし
+出勤
+退勤
+rails g model BasePoint base_point_name:string time_classification:string
+rails db:migrate
+rails g model User name:string email:string
+rails console --sandbox
+BasePoint.new
+base_point = BasePoint.new(base_point_name: "名古屋", time_classification: "出勤")
+user = User.new(name: "test user", email: "test@email.com")
+base_point.valid?
+user.valid?
+base_point.save
+user.save
+base_point
+user
+base_point.base_point_name
+user.name
+base_point.time_classification
+user.email
+base_point.id
+user.id
+オブジェクトの生成new
+オブジェクトの保存save
+BasePoint.create(base_point_name: "東京", time_classification: "退勤")
+User.create(name: "sample user", email: "sample@email.com")
+sample = BasePoint.create(base_point_name: "大阪", time_classification: "出勤")
+sample = User.create(name: "sample user1", email: "sample1@email.com")
+sample.destroy
+BasePoint.find(1)
+User.find(1)
+BasePoint.find(3)
+User.find(3)
+BasePoint.find_by(base_point_name: "名古屋")
+User.find_by(name: "test user")
+BasePoint.first
+User.first
+BasePoint.all
+User.all
+base_point
+user
+base_point.base_point_name = "守山区"
+user.name = "change user"
+base_point.save
+user.save
+base_point.update_attributes(base_point_name: "尾張旭", time_classification: "出勤")
+user.update_attributes(name: "update user", email: "update@email.com")
+rails c -s
+base_point = BasePoint.new(base_point_name: "", time_classification: "出勤")
+user = User.new(name: "", email: "sample@email.com")
+base_point.valid?
+user.valid?
+base_point.errors.full_messages
+user.errors.full_messages
+base_point.save
+user.save
+base_point = BasePoint.new(base_point_name: "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeee1", time_classification: "出勤")
+user = User.new(name: "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeee1", email: "sample@email.com")
+base_point.valid?
+user.valid?
+base_point.errors.full_messages
+user.errors.full_messages
+  resources :base_points
+  resources :users
+  
+BasePoint.create(base_point_name: "名古屋", time_classification: "出勤")
+BasePoint.count
+<%= base_point.id %>
+  
+<li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              メニュー <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+              <li>
+                <% if !current_user.admin? %>
+                 <%= link_to "勤怠表示画面", current_user %>
+                <% end %>
+              </li>
+              <li><%= link_to "設定", edit_user_path(current_user) %></li>
+              <li class="divider"></li>
+              <li>
+                <%= link_to "ログアウト", logout_path, method: :delete %>
+              </li>
+            </ul>
+</li>
+            <%= f.label :designated_work_end_time, class: "label-#{yield(:class_text)}" %>
+            <%= f.time_field :designated_work_end_time, class: "form-control" %>       
+            
+            <%= f.label :time_classification, class: "label-#{yield(:class_text)}" %><br>
+            <%= f.select :time_classification, ["出勤", "出勤"], ["退勤", "退勤"],class:"form-control" %>
+            
+ <%= f.label :"科目" %><br>
+  <%= f.select :subject, [["国語", "国語"], ["数学", "数学"], ["英語", "英語"], ["理科", "理科"], ["社会", "社会"], ["その他", "その他"]] ,class:"form-control" %>
 rails c -s
 user = User.new(name: "test user", email: "sample@email.com", password: "password", password_confirmation: "password")
 
@@ -348,3 +453,9 @@ user = User.new(name: "test user", email: "sample@email.com", password: "passwor
 
 もし出勤して退勤していなければ表示
  <% if @user.attendances.any?{|day|( day.worked_on == Date.today && !day.started_at.blank? && day.finished_at.blank? )} %>
+ 
+ 
+ 
+ 
+ 
+ 
